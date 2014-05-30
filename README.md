@@ -1,4 +1,4 @@
-SketchPlugins
+Sketch Plugins
 =============
 
 I'll be publishing my [Sketch](http://bohemiancoding.com/sketch/) plugins here as I create them.  Right now I just have one plugin that was made from [Josh Puckett](https://github.com/joshpuckett/SketchPlugins)'s "Save Page to PNG" plugin.
