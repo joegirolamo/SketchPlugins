@@ -20,8 +20,8 @@ var tempBackground = [[doc currentPage] addLayerOfType:"rectangle"]
 [[[[tempBackground style] fills] addNewStylePart] color]
 
 var layerFrame = [tempBackground frame]
-[layerFrame setX:[frame x]];
-[layerFrame setY:[frame y]];
+[layerFrame setX:[frame x]]
+[layerFrame setY:[frame y]]
 [layerFrame setHeight:[frame height]]
 [layerFrame setWidth:[frame width]]
 
@@ -34,7 +34,7 @@ var backgroundEl = [pageLayers objectAtIndex:layerCount-1]
 
 // Save the page slice to the same directory as a PNG
 var fullPath = fileFolder + fileName + ".png"
-[doc saveArtboardOrSlice:slice toFile:fullPath];
+[doc saveArtboardOrSlice:slice toFile:fullPath]
 [doc showMessage:"Saved as /" + fileName + ".png"]
 
 // **NEW** Clean up the page and remove the temp background
