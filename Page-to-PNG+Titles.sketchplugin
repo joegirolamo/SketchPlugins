@@ -16,7 +16,7 @@ var fileName = [doc displayName] +" - "+ [thisPage name]
 
 // **NEW** Create new background layer
 var tempBackground = [[doc currentPage] addLayerOfType:"rectangle"]
-[tempBackground setName:"Temp Background"]
+[tempBackground setName:"tempBackground"]
 [[[[tempBackground style] fills] addNewStylePart] color]
 var firstFill = [[[tempBackground style] fills] objectAtIndex:0]
 [[firstFill color] setRed:0.93]
@@ -48,7 +48,8 @@ for (var boardIndex = 0; boardIndex < artboardCount; boardIndex++){
 	var boardFrame = [thisArtboard frame]
 	[titleFrame setX:[boardFrame x]]
 	[titleFrame setY:[boardFrame y]-35]
-	[boardTitle setFontSize:24]
+	[boardTitle setFontSize:22]
+	[[[boardTitle style] contextSettings] setOpacity:0.4]
 	[boardTitle setName:"tempTitle"]
 	[boardTitle setStringValue:[thisArtboard name]]
 }
