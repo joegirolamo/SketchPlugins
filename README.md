@@ -7,10 +7,11 @@ I'll be publishing my [Sketch](http://bohemiancoding.com/sketch/) plugins here a
 
 ### Page-to-PNG
 
-Adds minor (but important) functionality to [Josh Puckett](https://github.com/joshpuckett/SketchPlugins)'s "Save Page to PNG" plugin.
+Exports an entire page of artboards as a PNG.
 
-* __Page Name Appended to Filename__ - The exported PNG includes the name of the page that has been exported.  "SketchProject.png" would now be something like "SketchProject-Page1.png"
-* __Background Color__ - The exported PNG no longer has a transparent background which made it hard to distinguish between artboards/objects when sharing on applications like CloudApp.
+* __Page Name Appended to Filename__ - The exported PNG includes the name of the page that has been exported.
+* __Background Color__ - You can choose between a light gray or dark gray background.
+* __Artboard Titles__ - You have the option to include or hide the artboard titles in the exported PNG.
 
 
 
