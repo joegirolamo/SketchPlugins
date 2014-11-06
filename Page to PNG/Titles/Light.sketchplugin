@@ -2,75 +2,76 @@
 
 #import '../sandbox.js'
 
-// Get the frame for the current page, add padding, slice it
-var frame = [[doc currentPage] contentBounds]
-[frame expandBy:100]
-var slice = frame
-
-// Get the path and name of the file
-var fileDisplayName = [doc displayName]
-var currentFilePath = [[doc fileURL] path]
-var fileFolder = currentFilePath.split(fileDisplayName)[0]
-
-// **NEW** Fancier file naming
-var thisPage = [doc currentPage]
-var fileName = [doc displayName] +" - "+ [thisPage name]
-
-// **NEW** Create new background layer
-var tempBackground = [[doc currentPage] addLayerOfType:"rectangle"]
-[tempBackground setName:"tempBackground"]
-[[[[tempBackground style] fills] addNewStylePart] color]
-var firstFill = [[[tempBackground style] fills] objectAtIndex:0]
-[[firstFill color] setRed:0.93]
-[[firstFill color] setGreen:0.93]
-[[firstFill color] setBlue:0.93]
-
-var layerFrame = [tempBackground frame]
-[layerFrame setX:[frame x]];
-[layerFrame setY:[frame y]];
-[layerFrame setHeight:[frame height]]
-[layerFrame setWidth:[frame width]]
-
-// **NEW** Move temp background to the back
-var pageLayers = [[doc currentPage] layers]
-var layerCount = [pageLayers count]
-var backgroundEl = [pageLayers objectAtIndex:layerCount-1]
-[pageLayers removeObjectAtIndex:layerCount-1]
-[pageLayers insertObject:backgroundEl atIndex:0]
-
-// **NEW** Add artboard names
-var artboards = [[doc currentPage] artboards]
-var artboardCount = [artboards count]
-var boardTitles = []
-for (var boardIndex = 0; boardIndex < artboardCount; boardIndex++){
-	var thisArtboard = [artboards objectAtIndex:boardIndex]
-	var boardTitle = [[doc currentPage] addLayerOfType:"text"]
-	boardTitles[boardIndex] = boardTitle
-	var titleFrame = [boardTitle frame]
-	var boardFrame = [thisArtboard frame]
-	[titleFrame setX:[boardFrame x]]
-	[titleFrame setY:[boardFrame y]-35]
-	[boardTitle setFontSize:22]
-	[[[boardTitle style] contextSettings] setOpacity:0.4]
-	[boardTitle setName:"tempTitle"]
-	[boardTitle setStringValue:[thisArtboard name]]
-	[titleFrame setWidth:[boardFrame width]]
-}
-
-// Save the page slice to the same directory as a PNG
 var home_folder = "/Users/" + NSUserName()
 new AppSandbox().authorize(home_folder, function(){
+
+	// Get the frame for the current page, add padding, slice it
+	var frame = [[doc currentPage] contentBounds]
+	[frame expandBy:100]
+	var slice = frame
+
+	// Get the path and name of the file
+	var fileDisplayName = [doc displayName]
+	var currentFilePath = [[doc fileURL] path]
+	var fileFolder = currentFilePath.split(fileDisplayName)[0]
+
+	// **NEW** Fancier file naming
+	var thisPage = [doc currentPage]
+	var fileName = [doc displayName] +" - "+ [thisPage name]
+
+	// **NEW** Create new background layer
+	var tempBackground = [[[doc currentPage] addLayerOfType:"rectangle"] embedInShapeGroup]
+	[tempBackground setName:"tempBackground"]
+	[[[[tempBackground style] fills] addNewStylePart] color]
+	var firstFill = [[[tempBackground style] fills] objectAtIndex:0]
+	[[firstFill color] setRed:0.93]
+	[[firstFill color] setGreen:0.93]
+	[[firstFill color] setBlue:0.93]
+
+	var layerFrame = [tempBackground frame]
+	[layerFrame setX:[frame x]];
+	[layerFrame setY:[frame y]];
+	[layerFrame setHeight:[frame height]]
+	[layerFrame setWidth:[frame width]]
+
+	// **NEW** Move temp background to the back
+	var pageLayers = [[doc currentPage] layers]
+	var layerCount = [pageLayers count]
+	var backgroundEl = [pageLayers objectAtIndex:layerCount-1]
+	[pageLayers removeObjectAtIndex:layerCount-1]
+	[pageLayers insertObject:backgroundEl atIndex:0]
+
+	// **NEW** Add artboard names
+	var artboards = [[doc currentPage] artboards]
+	var artboardCount = [artboards count]
+	var boardTitles = []
+	for (var boardIndex = 0; boardIndex < artboardCount; boardIndex++){
+		var thisArtboard = [artboards objectAtIndex:boardIndex]
+		var boardTitle = [[doc currentPage] addLayerOfType:"text"]
+		boardTitles[boardIndex] = boardTitle
+		var titleFrame = [boardTitle frame]
+		var boardFrame = [thisArtboard frame]
+		[titleFrame setX:[boardFrame x]]
+		[titleFrame setY:[boardFrame y]-35]
+		[boardTitle setFontSize:22]
+		[[[boardTitle style] contextSettings] setOpacity:0.4]
+		[boardTitle setName:"tempTitle"]
+		[boardTitle setStringValue:[thisArtboard name]]
+		[titleFrame setWidth:[boardFrame width]]
+	}
+
+	// Save the page slice to the same directory as a PNG
 	var fullPath = fileFolder + fileName + ".png"
 	[doc saveArtboardOrSlice:slice toFile:fullPath];
 	[doc showMessage:"Saved as /" + fileName + ".png"]
+
+	// **NEW** Clean up the page and remove the temp background
+	[[doc currentPage] removeLayer:tempBackground]
+
+	// **NEW** Loop through and remove the temp artboard titles
+	var titleCount = boardTitles.length
+	for (var titleIndex = 0; titleIndex < titleCount; titleIndex++){
+		[[doc currentPage] removeLayer:boardTitles[titleIndex]]
+	}
+
 })
-
-// **NEW** Clean up the page and remove the temp background
-[[doc currentPage] removeLayer:tempBackground]
-
-// **NEW** Loop through and remove the temp artboard titles
-var titleCount = boardTitles.length
-for (var titleIndex = 0; titleIndex < titleCount; titleIndex++){
-	[[doc currentPage] removeLayer:boardTitles[titleIndex]]
-}
-
