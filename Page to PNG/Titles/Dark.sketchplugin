@@ -21,7 +21,7 @@ new AppSandbox().authorize(home_folder, function(){
 
 	// **NEW** Create new background layer
 	var tempBackground = [[[doc currentPage] addLayerOfType:"rectangle"] embedInShapeGroup]
-	[tempBackgroundShape setName:"tempBackground"]
+	[tempBackground setName:"tempBackground"]
 	[[[[tempBackground style] fills] addNewStylePart] color]
 	var firstFill = [[[tempBackground style] fills] objectAtIndex:0]
 	log([firstFill color])
