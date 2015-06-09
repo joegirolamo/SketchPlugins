@@ -7,7 +7,14 @@ new AppSandbox().authorize(home_folder, function(){
 
 	// Get the frame for the current page, add padding, slice it
 	var frame = [[doc currentPage] contentBounds]
-	[frame expandBy:100]
+	var frameWidth = [frame width]
+	var frameHeight = [frame height]
+	var frameX = [frame x]
+	var frameY = [frame y]
+	[frame setWidth:frameWidth+100]
+	[frame setHeight:frameHeight+100]
+	[frame setX:frameX-50]
+	[frame setY:frameY-50]
 	var slice = frame
 
 	// Get the path and name of the file
